@@ -1,4 +1,5 @@
-import hazelbean as hb
+
+
 
 import warnings
 import numpy as np
@@ -17,6 +18,7 @@ from pprint import pprint
 import multiprocessing
 
 
+import hazelbean as hb
 def count_unique_values_by_shape(input_raster_uri, input_shapefile_uri, id_col, run_dir, values_that_might_exist):
     """
     Works for data larger than memory, but it does this by clipping and creating 1 shp and 1 raster for each polygon, which is super slow.
@@ -39,7 +41,7 @@ def count_unique_values_by_shape(input_raster_uri, input_shapefile_uri, id_col, 
 
     input_raster_basename = os.path.splitext(os.path.split(input_raster_uri)[1])[0]
 
-    for entry in counties_gdf[id_col][0:9]:
+    for entry in counties_gdf[id_col]:
         id_list.append(entry)
         county_shapefile_uri = os.path.join(run_dir, 'intermediate', input_raster_basename, entry + '_county.shp')
         hb.extract_features_in_shapefile_by_attribute(input_shapefile_uri, county_shapefile_uri, id_col, entry)
@@ -106,22 +108,24 @@ def count_unique_values_by_shape_for_uris_list(uris_list, layer_names, input_sha
 
 main = 'here'
 if __name__=='__main__':
-    nlcd_lulc_folder = 'C:/bulk_data/nlcd'
-    nlcd_lulc_uris = [
-        'C:/bulk_data/nlcd\\nlcd_2001_landcover_2011_edition_2014_10_10\\nlcd_2001_landcover_2011_edition_2014_10_10_compressed.tif',
-        'C:/bulk_data/nlcd\\nlcd_2006_landcover_2011_edition_2014_10_10\\nlcd_2006_landcover_2011_edition_2014_10_10_compressed.tif',
-        'C:/bulk_data/nlcd\\nlcd_2011_landcover_2011_edition_2014_10_10\\nlcd_2011_landcover_2011_edition_2014_10_10_compressed.tif',
-    ]
-
-    values_that_might_exist = list(hb.config.nlcd_category_names.keys())
-
-    wkt = hb.get_wkt_from_epsg_code(4269)  # NAD83
-    run_dir = hb.make_temp_run_folder()
-    layer_names = [2001, 2006, 2011]
-
-    input_shapefile_uri = "c:\\onedrive\\projects\\base_data\\cartographic\\us\\cb_2015_us_county_500k_nad83.shp"
-
-    # counts = enumerate_lulc_present_in_specific_us_county(13109) uris_list, layer_names, input_shapefile_uri, run_dir, id_col, values_that_might_exist
-    count_unique_values_by_shape_for_uris_list(nlcd_lulc_uris, layer_names, input_shapefile_uri, run_dir, 'GEOID', values_that_might_exist)
-
-
+    # USAGE:
+    # replace the input variables below with links to your data and input layer names. Will create polygon-level shapefiles and geotiffs for each polygon in the shapefile.
+    # Results will be summarized into CSVs with names defined in layer_names.
+    print('See, e.g., create_accounting_tables_from_nlcd.py for example usage.')
+# nlcd_lulc_folder = 'C:/bulk_data/nlcd'
+# nlcd_lulc_uris = [
+#     'C:/bulk_data/nlcd\\nlcd_2001_landcover_2011_edition_2014_10_10\\nlcd_2001_landcover_2011_edition_2014_10_10_compressed.tif',
+#     'C:/bulk_data/nlcd\\nlcd_2006_landcover_2011_edition_2014_10_10\\nlcd_2006_landcover_2011_edition_2014_10_10_compressed.tif',
+#     'C:/bulk_data/nlcd\\nlcd_2011_landcover_2011_edition_2014_10_10\\nlcd_2011_landcover_2011_edition_2014_10_10_compressed.tif',
+# ]
+#
+# values_that_might_exist = list(hb.config.nlcd_category_names.keys())
+#
+# run_dir = hb.make_temp_run_folder()
+# layer_names = [2001, 2006, 2011]
+#
+# input_shapefile_uri = "c:\\onedrive\\projects\\base_data\\cartographic\\us\\cb_2015_us_county_500k_nad83.shp"
+#
+# count_unique_values_by_shape_for_uris_list(nlcd_lulc_uris, layer_names, input_shapefile_uri, run_dir, 'GEOID', values_that_might_exist)
+#
+#
