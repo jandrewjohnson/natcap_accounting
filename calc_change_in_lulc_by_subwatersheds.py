@@ -121,7 +121,7 @@ if __name__=='__main__':
 #
 # values_that_might_exist = list(hb.config.nlcd_category_names.keys())
 #
-# run_dir = hb.make_temp_run_folder()
+# run_dir = hb.make_run_dir()
 # layer_names = [2001, 2006, 2011]
 #
 # input_shapefile_uri = "c:\\onedrive\\projects\\base_data\\cartographic\\us\\cb_2015_us_county_500k_nad83.shp"
